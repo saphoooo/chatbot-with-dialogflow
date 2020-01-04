@@ -15,6 +15,12 @@ import (
 )
 
 func webhook(w http.ResponseWriter, r *http.Request) {
+	if r.Header.Get("secret") != os.Getenv("TURING_BOT") {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("Page not found"))
+		return
+	}
+
 	var d views.QueryResult
 	err := json.NewDecoder(r.Body).Decode(&d)
 	if err != nil {
