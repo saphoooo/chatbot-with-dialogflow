@@ -3,7 +3,7 @@ package controllers
 import (
 	"encoding/json"
 
-	"turingbot.io/views"
+	"github.com/saphoooo/chatbot-with-dialogflow/views"
 )
 
 func newFollowupCityEvent(eventName string) *views.FollowupCityEvent {

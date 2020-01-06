@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"turingbot.io/views"
+	"github.com/saphoooo/chatbot-with-dialogflow/views"
 )
 
 // NewUSPresidentQuery ...

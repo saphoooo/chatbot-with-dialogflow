@@ -10,8 +10,8 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
-	"turingbot.io/controllers"
-	"turingbot.io/views"
+	"github.com/saphoooo/chatbot-with-dialogflow/controllers"
+	"github.com/saphoooo/chatbot-with-dialogflow/views"
 )
 
 func webhook(w http.ResponseWriter, r *http.Request) {

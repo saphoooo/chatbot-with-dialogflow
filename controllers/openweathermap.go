@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"turingbot.io/views"
+	"github.com/saphoooo/chatbot-with-dialogflow/views"
 )
 
 //const token = "151ffc2f8114c1d959a8295d23df1596"

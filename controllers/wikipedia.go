@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"turingbot.io/views"
+	"github.com/saphoooo/chatbot-with-dialogflow/views"
 )
 
 // NewWikiSummary ...
