@@ -2,11 +2,12 @@ package controllers
 
 import (
 	"encoding/json"
-	"errors"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"os"
 
+	"github.com/pkg/errors"
 	"github.com/saphoooo/chatbot-with-dialogflow/views"
 )
 
@@ -22,19 +23,32 @@ type Result struct {
 // QueryOpenweathermap ...
 func QueryOpenweathermap(firstname, when, city string) ([]byte, error) {
 	var o views.OpenWeather
-	token := os.Getenv("OPENWEATHERMAP_TOKEN")
-	resp, err := http.Get("http://api.openweathermap.org/data/2.5/weather/?q=" + city + "&lang=en&APPID=" + token)
+	baseURL, err := url.Parse("http://api.openweathermap.org/data/2.5/weather/?")
+	if err != nil {
+		return nil, errors.WithMessage(err, "malformed URL")
+	}
+	params := url.Values{}
+	params.Add("q", city)
+	params.Add("lang", "en")
+	params.Add("APPID", os.Getenv("OPENWEATHERMAP_TOKEN"))
+	baseURL.RawQuery = params.Encode()
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", baseURL.String(), nil)
 	if err != nil {
 		return nil, err
 	}
-
+	req.Header.Set("Content-Type", "application/json")
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
 	data, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
 	err = json.Unmarshal(data, &o)
 	if err != nil {
-		return nil, errors.New("Error unmarshaling query")
+		return nil, errors.WithMessage(err, "Error unmarshaling query")
 	}
 
 	return NewOpenweathermapSlackReply(firstname, when, city, o.Weather[0].Description, o.Main.TempMin, o.Main.TempMax)
